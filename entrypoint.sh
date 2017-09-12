@@ -4,13 +4,12 @@ case ${1} in
   shell)
     /bin/sh
     ;;
-  backup)
-    /backup.sh
-    ;;
-  restore)
-    /restore.sh
-    ;;
   cron)
-    exec /opt/cron/start.sh
+    crond -s /opt/cron/periodic \
+      -c /opt/cron/crontabs \
+      -t /opt/cron/cronstamps \
+      -L /dev/stdout \
+      -f &
+    wait
     ;;
 esac
